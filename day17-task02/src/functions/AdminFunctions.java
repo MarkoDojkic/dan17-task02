@@ -9,5 +9,5 @@ public interface AdminFunctions {
     void showAllUsers();
     void showUser(String username);
     User editUser(String username);
-    User deleteUser(String username);
+    boolean deleteUser(String username);
 }

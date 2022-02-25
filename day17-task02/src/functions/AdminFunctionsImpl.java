@@ -44,7 +44,7 @@ public class AdminFunctionsImpl implements AdminFunctions {
     }
 
     @Override
-    public User deleteUser(String username) {
-        return null;
+    public boolean deleteUser(String username) {
+         return users.removeIf((User user) -> user.getUsername().equals(username));
     }
 }
