@@ -1,9 +1,7 @@
 package functions;
 
 import model.Role;
-import model.User;
-
-import javax.security.sasl.SaslClient;
+import model.User;s
 import java.util.Scanner;
 
 public class AdminFunctionsImpl implements AdminFunctions {
@@ -14,7 +12,6 @@ public class AdminFunctionsImpl implements AdminFunctions {
         System.out.println("Unesite podatke o korisniku (sva polja su obavezna!)");
         System.out.print("\tUnesite korisničko ime: ");
         currentInput = input.nextLine();
-
     }
 
     @Override

@@ -4,10 +4,10 @@ import model.Role;
 import model.User;
 
 public interface AdminFunctions {
-    public void showInsertMenu();
-    public void insert(String name, String surname, String username, String password, Role role);
-    public void showAllUsers();
-    public void showUser(String username);
-    public User editUser(String username);
-    public User deleteUser(String username);
+    void showInsertMenu();
+    void insert(String name, String surname, String username, String password, Role role);
+    void showAllUsers();
+    void showUser(String username);
+    User editUser(String username);
+    User deleteUser(String username);
 }

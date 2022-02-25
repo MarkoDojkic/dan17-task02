@@ -1,15 +1,14 @@
-import functions.AdminFunctions;
-import model.Role;
-import model.User;
+import functions.AdminFunctionsImpl;
 
 import java.util.Scanner;
 
-public class Main implements AdminFunctions {
+public class Main {
     public static void main(String[] args) throws Exception {
         Scanner input = new Scanner(System.in);
         int tries;
         String currentUsername;
         boolean isWrongPassword;
+        AdminFunctionsImpl adminFunctionsImpl = new AdminFunctionsImpl();
 
         System.out.println("Dobrodosli u nas program.");
 
@@ -31,19 +30,19 @@ public class Main implements AdminFunctions {
 
                 switch (choice) {
                     case 1:
-                        showInsertMenu();
+                        adminFunctionsImpl.showInsertMenu();
                         break;
                     case 2:
-                        showAllUsers();
+                        adminFunctionsImpl.showAllUsers();
                         break;
                     case 3:
-                        showUser();
+                        adminFunctionsImpl.showUser();
                         break;
                     case 4:
-                        editUser();
+                        adminFunctionsImpl.editUser();
                         break;
                     case 5:
-                        deleteUser();
+                        adminFunctionsImpl.deleteUser();
                         break;
                     case 0: System.exit(0); break;
                     default:
@@ -70,35 +69,5 @@ public class Main implements AdminFunctions {
         System.out.println("5. Brisanje korisnika");
         System.out.println("0. Izloguj me");
         System.out.print("Izabrana opcija: ");
-    }
-
-    @Override
-    public void showInsertMenu() {
-
-    }
-
-    @Override
-    public void insert(String name, String surname, String username, String password, Role role) {
-
-    }
-
-    @Override
-    public void showAllUsers() {
-
-    }
-
-    @Override
-    public void showUser(String username) {
-
-    }
-
-    @Override
-    public User editUser(String username) {
-        return null;
-    }
-
-    @Override
-    public User deleteUser(String username) {
-        return null;
     }
 }
