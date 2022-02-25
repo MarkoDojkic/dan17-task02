@@ -6,8 +6,7 @@ import model.User;
 import java.util.Scanner;
 
 public interface AdminFunctions {
-    void showInsertMenu();
-    void insert(String name, String surname, String username, String password, Role role);
+    void insert(String firstName, String lastName, String username, String password, Role role);
     void showAllUsers();
     void showUser(String username);
     User editUser(String username);

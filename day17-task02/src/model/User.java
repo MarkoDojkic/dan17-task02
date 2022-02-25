@@ -74,4 +74,15 @@ public class User {
 
         return counter >= 1;
     }
+
+    @Override
+    public String toString() {
+        return "User {" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", username='" + username + '\'' +
+                /*", password='" + password + '\'' +*/
+                ", role=" + role +
+                '}';
+    }
 }

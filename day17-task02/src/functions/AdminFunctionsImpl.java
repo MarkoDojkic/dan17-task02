@@ -4,7 +4,6 @@ import model.Role;
 import model.User;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 
 public class AdminFunctionsImpl implements AdminFunctions {
@@ -15,38 +14,41 @@ public class AdminFunctionsImpl implements AdminFunctions {
         this.users = users;
     }
 
-    @Override
     public void showInsertMenu() {
         int index = 0;
-        boolean isPasswordCorrect = false;
+        boolean isUsernameUnique = false, isPasswordCorrect = false;
         String[] currentInput = new String[5];
-        User newUser = null;
-        System.out.println("Enter info about user (all fields are required!)");
-        System.out.print("\tEnter name: ");
-        currentInput[index++] = input.nextLine();
-        System.out.print("\tEnter surname: ");
-        currentInput[index++] = input.nextLine();
-        System.out.print("\tEnter username: ");
-        currentInput[index++] = input.nextLine();
+
+        if(currentInput[3] == null) {
+            System.out.println("Enter info about user (all fields are required!)");
+            System.out.print("\tEnter name: ");
+            currentInput[index++] = input.nextLine();
+            System.out.print("\tEnter surname: ");
+            currentInput[index++] = input.nextLine();
+            do {
+                System.out.print("\tEnter username: ");
+                currentInput[index] = input.nextLine();
+                if(this.findUser(currentInput[index]) == null) { index++; isUsernameUnique = true; }
+                else System.out.println("User " + currentInput[index] + "  already exists");
+            } while(!isUsernameUnique);
+        }
+
         do {
             System.out.print("\tEnter password: ");
             currentInput[index] = input.nextLine();
             System.out.print("\tEnter password again for confirmation: ");
             currentInput[4] = input.nextLine();
             if (currentInput[index].equals(currentInput[4])) {
-                try {
-                    newUser.setPassword(currentInput[index]);
-                    isPasswordCorrect = true;
-                    index++;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                isPasswordCorrect = true;
+                index++;
             }
         } while (!isPasswordCorrect);
+
         do {
-            System.out.print("\tEnter user role (1 - Admin, 2 - Editor: ");
-            if (input.nextInt() == 1) currentInput[index] = "A";
-            else if (input.nextInt() == 2) currentInput[index] = "E";
+            System.out.print("\tEnter user role (1 - Admin, 2 - Editor): ");
+            int userRoleId = input.nextInt();
+            if (userRoleId == 1) currentInput[index] = "A";
+            else if (userRoleId == 2) currentInput[index] = "E";
             else System.out.println("User role input not correct!");
         } while (currentInput[index] == null);
 
@@ -56,16 +58,39 @@ public class AdminFunctionsImpl implements AdminFunctions {
     @Override
     public void insert(String firstName, String lastName, String username, String password, Role role) {
         this.users.add(new User(firstName, lastName, username, password, role));
+        /*this.showUser(username);*/
     }
 
     @Override
     public void showAllUsers() {
+        System.out.println("Currently registered users are:");
+        this.users.forEach(user -> System.out.println(user.toString()));
+    }
 
+    public void showFindUserMenu(){
+        System.out.print("Enter username to find: ");
+        this.showUser(input.nextLine());
+    }
+
+    public void showEditUserMenu(){
+        System.out.print("Enter username to edit: ");
+        this.editUser(input.nextLine());
+    }
+
+    public void showDeletedUserMenu(){
+        System.out.print("Enter username to delete: ");
+        String inputUsername = input.nextLine();
+        System.out.println("Deletion of user " + inputUsername + " is " + (this.deleteUser(inputUsername) ? "successful" : "not successful"));
     }
 
     @Override
     public void showUser(String username) {
+        User foundUser = this.findUser(username);
+        System.out.println(foundUser == null ? "User with username " + username + " is not yet registered!" : "Found user: " + foundUser);
+    }
 
+    public User findUser(String username){
+        return this.users.stream().filter(user -> user.getUsername().equals(username)).findFirst().orElse(null);
     }
 
     @Override
@@ -83,23 +108,22 @@ public class AdminFunctionsImpl implements AdminFunctions {
 
             userInput = this.input.nextInt();
 
-            switch (userInput){
-                case 1:
+            switch (userInput) {
+                case 1 -> {
                     System.out.println("Enter new username");
                     finded.setUsername(input.nextLine());
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     System.out.println("Enter new first name");
                     finded.setFirstName(input.nextLine());
-                    break;
-                case 3:
+                }
+                case 3 -> {
                     System.out.println("Enter new last name");
                     finded.setLastName(input.nextLine());
-                    break;
-                default:
-                    System.out.println("The entered option is not available");
+                }
+                default -> System.out.println("The entered option is not available");
             }
-        }while (userInput != 4);
+        } while (userInput != 4);
 
         return finded;
     }
