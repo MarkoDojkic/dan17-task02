@@ -30,7 +30,7 @@ public class Main {
 
                 switch (choice) {
                     case 1:
-                        adminFunctionsImpl.showInsertMenu();
+                        adminFunctionsImpl.showInsertMenu(input);
                         break;
                     case 2:
                         adminFunctionsImpl.showAllUsers();
