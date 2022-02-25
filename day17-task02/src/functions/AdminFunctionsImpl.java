@@ -1,10 +1,19 @@
 package functions;
 
 import model.Role;
-import model.User;s
+import model.User;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class AdminFunctionsImpl implements AdminFunctions {
+
+    private List<User> users;
+    
+    public AdminFunctionsImpl(List<User> users) {
+        this.users = users;
+    }
+
     @Override
     public void showInsertMenu() {
         Scanner input = new Scanner(System.in);
