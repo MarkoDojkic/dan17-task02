@@ -1,5 +1,9 @@
 import functions.AdminFunctionsImpl;
+import model.Role;
+import model.User;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -8,7 +12,10 @@ public class Main {
         int tries;
         String currentUsername;
         boolean isWrongPassword;
-        AdminFunctionsImpl adminFunctionsImpl = new AdminFunctionsImpl();
+        List<User> users = new ArrayList<>();
+        users.add(new User("Admin", "Admin", "admin", "admin", Role.ADMIN));
+
+        AdminFunctionsImpl adminFunctionsImpl = new AdminFunctionsImpl(users);
 
         System.out.println("Dobrodosli u nas program.");
 
@@ -30,19 +37,19 @@ public class Main {
 
                 switch (choice) {
                     case 1:
-                        adminFunctionsImpl.showInsertMenu(input);
+                        adminFunctionsImpl.showInsertMenu();
                         break;
                     case 2:
                         adminFunctionsImpl.showAllUsers();
                         break;
                     case 3:
-                        adminFunctionsImpl.showUser();
+                        adminFunctionsImpl.showFindUserMenu();
                         break;
                     case 4:
-                        adminFunctionsImpl.editUser();
+                        adminFunctionsImpl.showEditUserMenu();
                         break;
                     case 5:
-                        adminFunctionsImpl.deleteUser();
+                        adminFunctionsImpl.showDeletedUserMenu();
                         break;
                     case 0: System.exit(0); break;
                     default:
