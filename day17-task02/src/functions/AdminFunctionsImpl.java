@@ -3,6 +3,7 @@ package functions;
 import model.Role;
 import model.User;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -58,7 +59,6 @@ public class AdminFunctionsImpl implements AdminFunctions {
     @Override
     public void insert(String firstName, String lastName, String username, String password, Role role) {
         this.users.add(new User(firstName, lastName, username, password, role));
-        /*this.showUser(username);*/
     }
 
     @Override
@@ -74,7 +74,7 @@ public class AdminFunctionsImpl implements AdminFunctions {
 
     public void showEditUserMenu(){
         System.out.print("Enter username to edit: ");
-        this.editUser(input.nextLine());
+        this.editUser(input.nextLine().trim());
     }
 
     public void showDeletedUserMenu(){
@@ -95,7 +95,7 @@ public class AdminFunctionsImpl implements AdminFunctions {
 
     @Override
     public User editUser(String username) {
-        User finded = users.stream().filter((User user) -> user.getUsername().equals(username))
+        User found = users.stream().filter((User user) -> user.getUsername().equals(username))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("User with " + username + " is not found"));
 
@@ -106,26 +106,35 @@ public class AdminFunctionsImpl implements AdminFunctions {
         do {
             showUpdateUserMenu();
 
-            userInput = this.input.nextInt();
+            try {
+            	userInput = this.input.nextInt();
+            } catch(InputMismatchException e) {
+            	e.printStackTrace();
+            	userInput = -1;
+            }
 
             switch (userInput) {
                 case 1 -> {
                     System.out.println("Enter new username");
-                    finded.setUsername(input.nextLine());
+                    found.setUsername(input.nextLine());
                 }
                 case 2 -> {
                     System.out.println("Enter new first name");
-                    finded.setFirstName(input.nextLine());
+                    found.setFirstName(input.nextLine());
                 }
                 case 3 -> {
                     System.out.println("Enter new last name");
-                    finded.setLastName(input.nextLine());
+                    found.setLastName(input.nextLine());
+                }
+                case 4 -> {
+                    System.out.println("Switch role to " + (found.getRole().equals(Role.ADMIN) ? "EDITOR" : "ADMIN") + "? (y/n): ");
+                    if(input.next().equals("y")) found.setRole(found.getRole().equals(Role.ADMIN) ? Role.EDITOR : Role.ADMIN);
                 }
                 default -> System.out.println("The entered option is not available");
             }
         } while (userInput != 4);
 
-        return finded;
+        return found;
     }
 
     @Override
@@ -137,6 +146,7 @@ public class AdminFunctionsImpl implements AdminFunctions {
         System.out.println("1. Username");
         System.out.println("2. First Name");
         System.out.println("3. Last Name");
-        System.out.println("4. Cancel");
+        System.out.println("4. Role");
+        System.out.println("0. Cancel");
     }
 }
